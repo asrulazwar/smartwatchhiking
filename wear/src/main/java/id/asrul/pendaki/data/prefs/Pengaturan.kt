@@ -44,6 +44,8 @@ data class SnapshotTile(
     val ketinggianM: Double? = null,
     val sisaNaikM: Double? = null,
     val naikTotalM: Double = 0.0,
+    val jarakM: Double = 0.0,
+    val langkah: Int = 0,
     val hr: Int? = null,
     val hrRata: Int? = null,
     val spo2: Int? = null,
@@ -74,6 +76,8 @@ class Pengaturan @Inject constructor(@ApplicationContext private val ctx: Contex
         val T_ALT = doublePreferencesKey("t_alt")
         val T_SISA = doublePreferencesKey("t_sisa")
         val T_NAIK = doublePreferencesKey("t_naik")
+        val T_JARAK = doublePreferencesKey("t_jarak")
+        val T_LANGKAH = intPreferencesKey("t_langkah")
         val T_HR = intPreferencesKey("t_hr")
         val T_HR_RATA = intPreferencesKey("t_hr_rata")
         val T_SPO2 = intPreferencesKey("t_spo2")
@@ -120,6 +124,8 @@ class Pengaturan @Inject constructor(@ApplicationContext private val ctx: Contex
             ketinggianM = p[K.T_ALT],
             sisaNaikM = p[K.T_SISA],
             naikTotalM = p[K.T_NAIK] ?: 0.0,
+            jarakM = p[K.T_JARAK] ?: 0.0,
+            langkah = p[K.T_LANGKAH] ?: 0,
             hr = p[K.T_HR],
             hrRata = p[K.T_HR_RATA],
             spo2 = p[K.T_SPO2],
@@ -140,6 +146,8 @@ class Pengaturan @Inject constructor(@ApplicationContext private val ctx: Contex
         s.ketinggianM?.let { p[K.T_ALT] = it } ?: p.remove(K.T_ALT)
         s.sisaNaikM?.let { p[K.T_SISA] = it } ?: p.remove(K.T_SISA)
         p[K.T_NAIK] = s.naikTotalM
+        p[K.T_JARAK] = s.jarakM
+        p[K.T_LANGKAH] = s.langkah
         s.hr?.let { p[K.T_HR] = it } ?: p.remove(K.T_HR)
         s.hrRata?.let { p[K.T_HR_RATA] = it } ?: p.remove(K.T_HR_RATA)
         s.spo2?.let { p[K.T_SPO2] = it } ?: p.remove(K.T_SPO2)

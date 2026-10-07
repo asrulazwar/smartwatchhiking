@@ -70,6 +70,7 @@ data class HikeState(
     val naikTotalM: Double = 0.0,
     val jarakM: Double = 0.0,
     val jumlahTitik: Int = 0,
+    val langkah: Int = 0,
 
     // detak
     val hr: Int? = null,

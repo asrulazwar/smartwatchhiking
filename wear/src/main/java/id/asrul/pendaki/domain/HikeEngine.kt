@@ -22,6 +22,8 @@ import id.asrul.pendaki.data.sensor.BarometerSource
 import id.asrul.pendaki.data.sensor.CompassSource
 import id.asrul.pendaki.data.sensor.MotionDetector
 import id.asrul.pendaki.data.sensor.SpO2Source
+import id.asrul.pendaki.data.sensor.StepSource
+import id.asrul.pendaki.data.sensor.HeartRateSensorSource
 import id.asrul.pendaki.data.sensor.StressSource
 import id.asrul.pendaki.di.AppScope
 import id.asrul.pendaki.di.Fallback
@@ -84,6 +86,8 @@ class HikeEngine @Inject constructor(
     private val barometer: BarometerSource,
     private val compass: CompassSource,
     private val motion: MotionDetector,
+    private val steps: StepSource,
+    private val hrSensor: HeartRateSensorSource,
     private val location: LocationSource,
     private val health: HealthServicesManager,
     private val phone: PhoneLink,
@@ -135,6 +139,9 @@ class HikeEngine @Inject constructor(
     private var titikTerakhirMs = 0L
     private var lokasiJob: Job? = null
     private var minumTerakhir = 0L
+    private var langkahAwal: Long? = null
+    private var langkahTersimpan = 0
+    private var hrFallbackJob: Job? = null
 
     // ---------------------------------------------------------------- memulai
 
@@ -151,6 +158,7 @@ class HikeEngine @Inject constructor(
         sesiDao.simpan(entity)
         pengaturan.setGunungTerakhir(gunung.id, jalur?.namaJalur)
         siapkanSesi(entity, gunung, jalur, emptyList())
+        langkahAwal = null; langkahTersimpan = 0
         // basecamp sebagai waypoint pertama (posisi diisi saat fix pertama)
         _state.update { it.copy(fase = Fase.MEREKAM) }
         Timber.i("Sesi dimulai: ${gunung.nama} via ${jalur?.namaJalur}")
@@ -170,6 +178,7 @@ class HikeEngine @Inject constructor(
         val spo2 = sampelDao.semua(e.id, SampelEntity.SPO2).map { SampelSpO2(it.waktu, it.nilai.toInt(), it.ekstra ?: 0.0, it.flag) }
         val stres = sampelDao.semua(e.id, SampelEntity.STRES).map { SampelStres(it.waktu, it.nilai.toInt(), it.ekstra ?: 0.0) }
         baselineRmssd = e.baselineRmssd
+        langkahAwal = e.langkahAwal; langkahTersimpan = e.langkah
         val fase = when {
             e.waktuPuncak != null -> Fase.TURUN
             else -> Fase.MEREKAM
@@ -182,6 +191,7 @@ class HikeEngine @Inject constructor(
                 stres = stres.lastOrNull(), riwayatStres = stres,
                 kalibrasiSiap = kalibrasiAwalSelesai,
                 jumlahTitik = titikCache.size,
+                langkah = e.langkah,
                 naikTotalM = SessionStats.naikTotal(titikCache),
                 jarakM = SessionStats.jarak(titikCache),
             )
@@ -245,6 +255,11 @@ class HikeEngine @Inject constructor(
         // detak jantung dari Health Services
         s.launch { health.hr.collect { (t, bpm) -> terimaHr(t, bpm) } }
 
+        // langkah dari TYPE_STEP_COUNTER (kumulatif sejak boot)
+        s.launch {
+            steps.hitungan().catch { Timber.w(it) }.collect { total -> terimaLangkah(total) }
+        }
+
         // stres otomatis saat diam >= 3 menit, dan pengingat minum, snapshot tile
         s.launch {
             while (isActive) {
@@ -253,6 +268,7 @@ class HikeEngine @Inject constructor(
                 _state.update { it.copy(sekarang = now) }
                 cekStresOtomatis(now)
                 cekPengingatMinum(now)
+                simpanLangkah()
                 tulisSnapshotTile()
             }
         }
@@ -261,8 +277,39 @@ class HikeEngine @Inject constructor(
 
     fun hentikanSensor() {
         scope?.cancel(); scope = null
-        lokasiJob = null
+        lokasiJob = null; hrFallbackJob = null
         motion.berhenti()
+    }
+
+    /**
+     * Dipanggil service bila Health Services gagal/tidak merespons: baca detak langsung dari
+     * sensor TYPE_HEART_RATE (butuh izin BODY_SENSORS) agar fitur detak tetap jalan.
+     */
+    fun aktifkanHrSensorFallback() {
+        val s = scope ?: return
+        if (hrFallbackJob != null || !hrSensor.tersedia) return
+        hrFallbackJob = s.launch {
+            hrSensor.detak().catch { Timber.w(it) }.collect { (t, bpm) -> terimaHr(t, bpm) }
+        }
+        Timber.i("Fallback sensor detak diaktifkan")
+    }
+
+    private fun terimaLangkah(total: Long) {
+        val awal = langkahAwal
+        if (awal == null || total < awal) {
+            // bacaan pertama, atau counter direset (reboot): mulai dari langkah yang sudah tersimpan
+            langkahAwal = total - langkahTersimpan
+        }
+        val n = (total - (langkahAwal ?: total)).toInt().coerceAtLeast(0)
+        _state.update { it.copy(langkah = n) }
+    }
+
+    private suspend fun simpanLangkah() {
+        val st = _state.value
+        val id = st.sesiId ?: return
+        if (st.langkah == langkahTersimpan) return
+        langkahTersimpan = st.langkah
+        runCatching { sesiDao.simpanLangkah(id, langkahAwal, st.langkah) }
     }
 
     private fun mulaiUlangLokasi() {
@@ -607,7 +654,7 @@ class HikeEngine @Inject constructor(
         val id = st.sesiId ?: return
         val now = System.currentTimeMillis()
         health.selesai()
-        sesiDao.byId(id)?.let { sesiDao.perbarui(it.copy(aktif = false, selesai = now)) }
+        sesiDao.byId(id)?.let { sesiDao.perbarui(it.copy(aktif = false, selesai = now, langkahAwal = langkahAwal, langkah = st.langkah)) }
         _state.update { it.copy(fase = Fase.SELESAI, sekarang = now) }
         tulisSnapshotTile()
         Timber.i("Sesi selesai: $id")
@@ -638,6 +685,7 @@ class HikeEngine @Inject constructor(
                 SnapshotTile(
                     aktif = st.sedangAktif, namaGunung = st.gunung?.nama, mulai = st.mulai,
                     ketinggianM = st.ketinggianM, sisaNaikM = st.sisaNaikM, naikTotalM = st.naikTotalM,
+                    jarakM = st.jarakM, langkah = st.langkah,
                     hr = st.hr, hrRata = st.hrRata, spo2 = st.spo2?.nilai, spo2Waktu = st.spo2?.waktu,
                     posTerakhir = st.waypoint.lastOrNull { it.jenis == JenisWaypoint.POS }?.nama,
                     lat = st.lat ?: st.gunung?.lat, lon = st.lon ?: st.gunung?.lon,

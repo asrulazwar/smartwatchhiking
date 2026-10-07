@@ -23,6 +23,9 @@ data class SesiEntity(
     val baselineRmssd: Double? = null,
     val aktif: Boolean = true,
     val terkirim: Boolean = false,
+    /** Nilai TYPE_STEP_COUNTER saat sesi mulai (null = belum ada bacaan). */
+    val langkahAwal: Long? = null,
+    val langkah: Int = 0,
 )
 
 @Entity(tableName = "titik", indices = [Index("sesiId", "waktu")])

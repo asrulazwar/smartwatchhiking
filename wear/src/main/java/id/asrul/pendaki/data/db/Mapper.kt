@@ -31,4 +31,5 @@ fun SesiEntity.keModel(
     waypoint = waypoint.map { it.keModel() },
     spo2 = spo2.map { it.keSpO2() },
     stres = stres.map { it.keStres() },
+    langkah = langkah,
 )

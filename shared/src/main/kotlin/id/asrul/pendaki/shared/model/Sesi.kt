@@ -71,6 +71,7 @@ data class SesiPendakian(
     val spo2: List<SampelSpO2> = emptyList(),
     val stres: List<SampelStres> = emptyList(),
     val catatan: String? = null,
+    val langkah: Int? = null,
 ) {
     /** "Gn. Merbabu via Selo" */
     val judul: String

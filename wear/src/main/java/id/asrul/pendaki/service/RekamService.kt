@@ -21,6 +21,8 @@ import id.asrul.pendaki.data.health.HealthServicesManager
 import id.asrul.pendaki.domain.HikeEngine
 import id.asrul.pendaki.shared.format.Format
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -58,8 +60,20 @@ class RekamService : LifecycleService() {
                     Timber.w("Tidak ada sesi aktif, service berhenti")
                     stopForeground(STOP_FOREGROUND_REMOVE); stopSelf(); return@launch
                 }
-                health.mulai()
+                // Sensor (barometer, GPS, langkah) dinyalakan lebih dulu agar layar utama langsung
+                // hidup; Health Services menyusul dengan batas waktu supaya tidak memblokir.
                 engine.jalankanSensor()
+                val hsOk = withTimeoutOrNull(20_000) { health.mulai() } ?: false
+                if (!hsOk) {
+                    Timber.w("Health Services tidak tersedia/merespons; pakai sensor detak langsung")
+                    engine.aktifkanHrSensorFallback()
+                } else {
+                    // Kalau 90 detik tidak ada detak dari Health Services, nyalakan fallback juga.
+                    launch {
+                        val ada = withTimeoutOrNull(90_000) { health.hr.first() } != null
+                        if (!ada) engine.aktifkanHrSensorFallback()
+                    }
+                }
                 pantauNotifikasi()
             }
             lifecycleScope.launch { pantauKejadian() }

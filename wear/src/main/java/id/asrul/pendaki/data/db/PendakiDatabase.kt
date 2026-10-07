@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [SesiEntity::class, TitikEntity::class, WaypointEntity::class, SampelEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = true,
 )
 abstract class PendakiDatabase : RoomDatabase() {

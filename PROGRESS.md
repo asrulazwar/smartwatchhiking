@@ -66,3 +66,10 @@ Ringkasan per bagian. Status: ✅ selesai · 🔄 sedang · ⏳ belum · ⚠️ 
   - https://github.com/asrulazwar/smartwatchhiking/issues/2 — Deteksi pos otomatis diperluas + berbagi file jalur
   - https://github.com/asrulazwar/smartwatchhiking/issues/3 — Peringatan cuaca dari penurunan tekanan barometer
   - https://github.com/asrulazwar/smartwatchhiking/issues/4 — Ekspor FIT
+
+## Uji perangkat pertama (OnePlus Watch 2) — perbaikan
+- Aplikasi terpasang dan berjalan di jam (layar utama, pengaturan, catat pos, pilih nama pos tampil).
+- Ketinggian "—": service kini menyalakan sensor dulu, Health Services dibatasi 20 detik; fallback detak lewat `TYPE_HEART_RATE` jika Health Services gagal/diam 90 detik. Layar utama menampilkan bacaan GPS/barometer mentah dengan keterangan sebelum terkalibrasi.
+- Layar batas detak: tata letak baru (± di bawah angka, preset chip lebar penuh) agar tidak terpotong layar bulat.
+- Jumlah langkah (`TYPE_STEP_COUNTER`, tersimpan di Room, tahan reboot) dan jarak ditampilkan di layar utama, selesai, Tile, dan detail HP.
+- APK: varian debug kini dioptimasi R8 (tetap tanpa obfuscation), pustaka native hanya ARM.
