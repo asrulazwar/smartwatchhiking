@@ -52,6 +52,12 @@ android {
 kotlin {
     compilerOptions {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        freeCompilerArgs.addAll(
+            "-opt-in=com.google.android.horologist.annotations.ExperimentalHorologistApi",
+            "-opt-in=androidx.compose.ui.text.ExperimentalTextApi",
+            "-opt-in=androidx.wear.compose.material.ExperimentalWearMaterialApi",
+            "-opt-in=androidx.wear.compose.foundation.ExperimentalWearFoundationApi",
+        )
     }
 }
 
