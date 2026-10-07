@@ -1,0 +1,1 @@
+-keep class id.asrul.pendaki.shared.** { *; }
