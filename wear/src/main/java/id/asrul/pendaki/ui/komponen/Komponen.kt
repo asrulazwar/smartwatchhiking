@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.Remove
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -110,7 +109,8 @@ fun TombolPlusMinus(plus: Boolean, onClick: () -> Unit) {
         modifier = Modifier.size(48.dp),
         colors = ButtonDefaults.buttonColors(backgroundColor = Warna.PermukaanTerang, contentColor = Warna.Teks),
     ) {
-        Icon(if (plus) Icons.Rounded.Add else Icons.Rounded.Remove, contentDescription = if (plus) "+" else "−")
+        if (plus) Icon(Icons.Rounded.Add, contentDescription = "+")
+        else Text("−", style = MaterialTheme.typography.title1, color = Warna.Teks)
     }
 }
 

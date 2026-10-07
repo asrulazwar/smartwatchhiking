@@ -54,7 +54,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
@@ -289,6 +288,7 @@ class HikeEngine @Inject constructor(
 
     private suspend fun selesaikanKalibrasi() {
         kalibrasiAwalSelesai = true
+        if (altSpO2Terakhir == null) altSpO2Terakhir = altimeter.ketinggianM
         _state.value.sesiId?.let { sesiDao.simpanOffset(it, altimeter.offsetM) }
         _state.update { it.copy(kalibrasiSiap = true) }
     }

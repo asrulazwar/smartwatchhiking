@@ -8,7 +8,7 @@
     <!-- umum -->
     <string name="mdpl">mdpl</string>
     <string name="bpm">bpm</string>
-    <string name="satuan_persen">%</string>
+    <string name="satuan_persen" formatted="false">%</string>
     <string name="tidak_tersedia">tidak tersedia</string>
     <string name="tidak_tersedia_perangkat">tidak tersedia di perangkat ini</string>
     <string name="batal">Batal</string>

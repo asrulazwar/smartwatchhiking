@@ -32,9 +32,9 @@ Versi di `gradle/libs.versions.toml`. Kedua aplikasi memakai `applicationId = id
 ```bash
 ./gradlew :wear:assembleDebug :mobile:assembleDebug   # butuh Android SDK (ANDROID_HOME)
 ./gradlew testDebugUnitTest :shared:test              # unit test
-./gradlew :shared:test                                # bisa tanpa Android SDK
+cd shared && ../gradlew test                          # :shared saja, bisa tanpa Android SDK
 ```
-Tanpa Android SDK, `settings.gradle.kts` otomatis hanya memuat `:shared` (lihat DECISIONS.md).
+`shared/settings.gradle.kts` membuat `:shared` bisa dibangun mandiri di mesin tanpa Android SDK (lihat DECISIONS.md).
 CI: `.github/workflows/build.yml` (JDK 17) → artefak `wear-debug` dan `mobile-debug`.
 
 ## Install lewat ADB wireless

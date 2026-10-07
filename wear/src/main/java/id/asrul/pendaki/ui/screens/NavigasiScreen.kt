@@ -58,7 +58,7 @@ fun NavigasiScreen(vm: HikeViewModel) {
             val c = Offset(center.x + r * cos(sudut).toFloat(), center.y + r * sin(sudut).toFloat())
             drawCircle(Warna.Merah, radius = 6.dp.toPx(), center = c)
         }
-        Column(modifier = Modifier.fillMaxSize().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalAlignment = Alignment.CenterVertically.let { androidx.compose.foundation.layout.Arrangement.Center }) {
+        Column(modifier = Modifier.fillMaxSize().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center) {
             if (arah == null) {
                 Label(stringResource(R.string.nav_tanpa_tujuan), warna = Warna.Teks)
             } else {

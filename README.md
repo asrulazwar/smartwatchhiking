@@ -8,6 +8,7 @@ Prasyarat: JDK 17, Android SDK (compileSdk 35).
 ```bash
 ./gradlew :wear:assembleDebug :mobile:assembleDebug
 ./gradlew testDebugUnitTest :shared:test
+cd shared && ../gradlew test     # hanya :shared, tanpa Android SDK
 ```
 APK: `wear/build/outputs/apk/debug/wear-debug.apk` dan `mobile/build/outputs/apk/debug/mobile-debug.apk`.
 GitHub Actions membangun keduanya dan mengunggah artefak `wear-debug` dan `mobile-debug`.

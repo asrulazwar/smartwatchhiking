@@ -6,8 +6,10 @@ Format: tanggal · keputusan · alasan.
 Agen yang mengerjakan repo ini tidak bisa mengunduh Android SDK maupun artefak Google Maven
 (dl.google.com diblokir kebijakan jaringan). Akibatnya:
 - Modul `:wear` dan `:mobile` hanya dikompilasi di GitHub Actions (runner Ubuntu sudah membawa SDK).
-- `settings.gradle.kts` hanya memasukkan modul Android jika `ANDROID_HOME`/`sdk.dir` ada, sehingga
-  `./gradlew :shared:test` tetap jalan di mesin tanpa SDK.
+- `shared/settings.gradle.kts` menjadikan `:shared` build Gradle mandiri (`cd shared && ../gradlew test`)
+  sehingga unit test tetap jalan di mesin tanpa SDK. Dari root, file itu diabaikan. (Semula modul Android
+  dimasukkan bersyarat lewat settings, tetapi AGP dan Kotlin Gradle Plugin harus dimuat dalam satu
+  classloader di root, jadi AGP tetap harus dideklarasikan di root.)
 - Semua logika yang bisa diuji tanpa Android (pencarian gunung, kalibrasi barometer, deteksi puncak,
   ambang detak, aturan AMS, konversi RMSSD → stres, generator GPX, navigasi, statistik, matahari
   terbenam, format angka) ditaruh di `:shared` (Kotlin JVM murni). `domain/` di `:wear` hanya

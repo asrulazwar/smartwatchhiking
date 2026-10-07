@@ -88,10 +88,9 @@ class HealthServicesManager @Inject constructor(@ApplicationContext private val 
         }
         val caps = client.getCapabilitiesAsync().await()
         val didukung = caps.getExerciseTypeCapabilities(ExerciseType.HIKING).supportedDataTypes
-        val diminta = buildSet {
-            if (DataType.HEART_RATE_BPM in didukung) add(DataType.HEART_RATE_BPM)
-            if (DataType.LOCATION in didukung) add(DataType.LOCATION)
-        }
+        val diminta = mutableSetOf<DataType<*, *>>()
+        if (DataType.HEART_RATE_BPM in didukung) diminta += DataType.HEART_RATE_BPM
+        if (DataType.LOCATION in didukung) diminta += DataType.LOCATION
         val config = ExerciseConfig.builder(ExerciseType.HIKING)
             .setDataTypes(diminta)
             .setIsAutoPauseAndResumeEnabled(false)
