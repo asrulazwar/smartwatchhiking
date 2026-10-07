@@ -58,3 +58,11 @@ Ringkasan per bagian. Status: ✅ selesai · 🔄 sedang · ⏳ belum · ⚠️ 
 - Izin ditolak tidak crash: layar izin + fitur dinonaktifkan.
 - Timber: DebugTree hanya di debug; release tidak mencatat pesan (tidak ada log lokasi).
 - ⚠️ Modul Android hanya terverifikasi lewat GitHub Actions (lingkungan agen tanpa akses Google Maven).
+
+## Status CI & Tahap 2
+- Workflow `build` hijau pada commit `3c04d25` (run https://github.com/asrulazwar/smartwatchhiking/actions/runs/37572728787): artefak `wear-debug` dan `mobile-debug` terunggah, unit test lulus.
+- Issue Tahap 2 (jangan dikerjakan sebelum Tahap 1 diverifikasi di perangkat):
+  - https://github.com/asrulazwar/smartwatchhiking/issues/1 — Unggah ke Strava API v3
+  - https://github.com/asrulazwar/smartwatchhiking/issues/2 — Deteksi pos otomatis diperluas + berbagi file jalur
+  - https://github.com/asrulazwar/smartwatchhiking/issues/3 — Peringatan cuaca dari penurunan tekanan barometer
+  - https://github.com/asrulazwar/smartwatchhiking/issues/4 — Ekspor FIT
