@@ -26,4 +26,5 @@ object Rute {
     const val AMBANG_SPO2 = "ambangSpo2"
     const val MINUM = "minum"
     const val DEBUG = "debug"
+    const val RIWAYAT = "riwayat"
 }

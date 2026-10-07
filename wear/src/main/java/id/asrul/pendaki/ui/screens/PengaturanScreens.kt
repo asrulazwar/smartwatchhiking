@@ -45,6 +45,7 @@ class PengaturanViewModel @Inject constructor(private val pengaturan: Pengaturan
     fun gpsHemat(v: Boolean) = viewModelScope.launch { pengaturan.setGpsHemat(v) }
     fun minum(v: Int) = viewModelScope.launch { pengaturan.setPengingatMinum(v) }
     fun getar(v: Boolean) = viewModelScope.launch { pengaturan.setGetar(v) }
+    fun suara(v: Boolean) = viewModelScope.launch { pengaturan.setSuara(v) }
 }
 
 @Composable
@@ -73,6 +74,14 @@ fun PengaturanScreen(onRute: (String) -> Unit, vm: PengaturanViewModel = hiltVie
                         checked = d.getar, onCheckedChange = { vm.getar(it) }, modifier = Modifier.fillMaxWidth(),
                         label = { Text(stringResource(R.string.set_getar)) },
                         toggleControl = { Switch(checked = d.getar) },
+                        colors = ToggleChipDefaults.toggleChipColors(checkedStartBackgroundColor = Warna.Permukaan, checkedEndBackgroundColor = Warna.Permukaan, uncheckedStartBackgroundColor = Warna.Permukaan, uncheckedEndBackgroundColor = Warna.Permukaan),
+                    )
+                }
+                item {
+                    ToggleChip(
+                        checked = d.suara, onCheckedChange = { vm.suara(it) }, modifier = Modifier.fillMaxWidth(),
+                        label = { Text(stringResource(R.string.set_suara)) },
+                        toggleControl = { Switch(checked = d.suara) },
                         colors = ToggleChipDefaults.toggleChipColors(checkedStartBackgroundColor = Warna.Permukaan, checkedEndBackgroundColor = Warna.Permukaan, uncheckedStartBackgroundColor = Warna.Permukaan, uncheckedEndBackgroundColor = Warna.Permukaan),
                     )
                 }

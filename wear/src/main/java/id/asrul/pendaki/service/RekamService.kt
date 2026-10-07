@@ -98,6 +98,7 @@ class RekamService : LifecycleService() {
                 is HikeEngine.Kejadian.PuncakTerdeteksi -> notifPeringatan(4, getString(R.string.puncak_terdeteksi), Format.jam(k.info.waktu))
                 is HikeEngine.Kejadian.PengingatMinum -> notifPeringatan(5, getString(R.string.minum_pengingat), "")
                 is HikeEngine.Kejadian.PengingatSpO2 -> notifPeringatan(6, getString(R.string.spo2_pengingat), "")
+                is HikeEngine.Kejadian.KmTercapai -> notifPeringatan(7, getString(R.string.km_judul, k.km), getString(R.string.suara_km, k.km))
                 else -> Unit
             }
         }

@@ -15,6 +15,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class JamListenerService : WearableListenerService() {
     @Inject lateinit var phone: PhoneLink
+    @Inject lateinit var repo: id.asrul.pendaki.data.db.SesiRepository
 
     override fun onDataChanged(dataEvents: DataEventBuffer) {
         for (ev in dataEvents) {
@@ -30,6 +31,12 @@ class JamListenerService : WearableListenerService() {
 
     override fun onMessageReceived(event: MessageEvent) {
         when (event.path) {
+            DataLayerContract.PATH_MINTA_SESI -> {
+                val semua = String(event.data, Charsets.UTF_8) == "semua"
+                kotlinx.coroutines.runBlocking { if (semua) repo.tandaiSemuaBelumTerkirim() }
+                id.asrul.pendaki.data.sync.SyncWorker.jadwalkan(this)
+                Timber.i("HP meminta sesi (semua=%s)", semua)
+            }
             DataLayerContract.PATH_SESI_DITERIMA -> {
                 val id = String(event.data, Charsets.UTF_8)
                 phone.terimaKonfirmasi(id)

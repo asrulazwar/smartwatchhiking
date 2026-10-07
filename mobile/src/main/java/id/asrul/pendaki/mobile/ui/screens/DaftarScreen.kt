@@ -13,7 +13,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -31,12 +34,18 @@ import id.asrul.pendaki.shared.format.Format
 @Composable
 fun DaftarScreen(onBuka: (String) -> Unit, vm: DaftarViewModel = hiltViewModel()) {
     val daftar by vm.daftar.collectAsStateWithLifecycle()
-    Scaffold(topBar = { TopAppBar(title = { Text(stringResource(R.string.daftar_judul)) }) }) { pad ->
-        if (daftar.isEmpty()) {
-            Text(stringResource(R.string.daftar_kosong), modifier = Modifier.padding(pad).padding(24.dp), color = Warna.Sekunder)
-            return@Scaffold
-        }
+    val pesan by vm.pesan.collectAsStateWithLifecycle()
+    Scaffold(
+        topBar = { TopAppBar(title = { Text(stringResource(R.string.daftar_judul)) }) },
+        snackbarHost = { pesan?.let { Snackbar(modifier = Modifier.padding(12.dp), action = { TextButton(onClick = { vm.tutupPesan() }) { Text("OK") } }) { Text(it) } } },
+    ) { pad ->
         LazyColumn(modifier = Modifier.fillMaxSize().padding(pad), contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            item {
+                OutlinedButton(onClick = { vm.mintaDariJam() }, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.daftar_minta_jam)) }
+            }
+            if (daftar.isEmpty()) {
+                item { Text(stringResource(R.string.daftar_kosong), modifier = Modifier.padding(8.dp), color = Warna.Sekunder) }
+            }
             items(daftar, key = { it.id }) { s ->
                 Card(onClick = { onBuka(s.id) }, colors = CardDefaults.cardColors(containerColor = Warna.Permukaan)) {
                     Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {

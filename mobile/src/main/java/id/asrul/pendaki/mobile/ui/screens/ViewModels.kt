@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.asrul.pendaki.mobile.data.db.SesiHpDao
 import id.asrul.pendaki.mobile.data.db.SesiHpEntity
+import id.asrul.pendaki.mobile.data.datalayer.JamLink
 import id.asrul.pendaki.mobile.data.export.GpxExporter
 import id.asrul.pendaki.mobile.data.export.HasilGpx
 import id.asrul.pendaki.mobile.data.health.HealthConnectManager
@@ -24,8 +25,18 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class DaftarViewModel @Inject constructor(dao: SesiHpDao) : ViewModel() {
+class DaftarViewModel @Inject constructor(dao: SesiHpDao, private val jam: JamLink) : ViewModel() {
     val daftar: StateFlow<List<SesiHpEntity>> = dao.semua().stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+    private val _pesan = MutableStateFlow<String?>(null)
+    val pesan: StateFlow<String?> = _pesan
+
+    /** Minta jam mengirim ulang semua sesi yang tersimpan di jam. */
+    fun mintaDariJam() = viewModelScope.launch {
+        _pesan.value = "Meminta ke jam…"
+        val ok = jam.mintaSesi(semua = true)
+        _pesan.value = if (ok) "Permintaan terkirim. Sesi akan muncul beberapa detik lagi." else "Jam tidak terhubung. Pastikan jam tersambung lewat Bluetooth."
+    }
+    fun tutupPesan() { _pesan.value = null }
 }
 
 @HiltViewModel

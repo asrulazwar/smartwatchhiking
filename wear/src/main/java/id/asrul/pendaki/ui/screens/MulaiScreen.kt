@@ -40,6 +40,7 @@ import id.asrul.pendaki.ui.theme.Warna
 fun MulaiScreen(
     onMulai: () -> Unit,
     onCariLain: () -> Unit,
+    onRiwayat: () -> Unit,
     onPilihJalur: (String) -> Unit,
     hike: HikeViewModel,
     vm: MulaiViewModel = hiltViewModel(),
@@ -71,10 +72,9 @@ fun MulaiScreen(
                     items(st.terdekat.size) { i -> KartuGunung(st.terdekat[i], utama = i == 0, onClick = { onPilihJalur(st.terdekat[i].gunung.id) }) }
                 }
                 if (!st.mencariGps) {
-                    item {
-                        TombolSekunder(stringResource(R.string.mulai_cari_lain), onClick = onCariLain)
-                    }
+                    item { TombolSekunder(stringResource(R.string.mulai_cari_lain), onClick = onCariLain) }
                 }
+                item { TombolSekunder(stringResource(R.string.riwayat_judul), onClick = onRiwayat) }
             }
         }
     }

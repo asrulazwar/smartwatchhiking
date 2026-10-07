@@ -29,6 +29,7 @@ import id.asrul.pendaki.ui.screens.PilihGunungScreen
 import id.asrul.pendaki.ui.screens.PilihJalurScreen
 import id.asrul.pendaki.ui.screens.PosScreen
 import id.asrul.pendaki.ui.screens.PuncakScreen
+import id.asrul.pendaki.ui.screens.RiwayatScreen
 import id.asrul.pendaki.ui.screens.SelesaiScreen
 import id.asrul.pendaki.ui.screens.StresScreen
 import id.asrul.pendaki.ui.screens.TawaranPosScreen
@@ -72,6 +73,7 @@ fun PendakiNavHost(ambient: Boolean) {
                 hike = vm,
                 onMulai = { nav.navigate(Rute.UTAMA) { popUpTo(Rute.MULAI) { inclusive = true } } },
                 onCariLain = { nav.navigate(Rute.PILIH_GUNUNG) },
+                onRiwayat = { nav.navigate(Rute.RIWAYAT) },
                 onPilihJalur = { id -> nav.navigate(Rute.pilihJalur(id)) },
             )
         }
@@ -100,5 +102,6 @@ fun PendakiNavHost(ambient: Boolean) {
         composable(Rute.AMBANG_SPO2) { AmbangSpO2Screen() }
         composable(Rute.MINUM) { MinumScreen() }
         composable(Rute.DEBUG) { DebugScreen() }
+        composable(Rute.RIWAYAT) { RiwayatScreen() }
     }
 }

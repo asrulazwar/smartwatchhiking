@@ -29,6 +29,7 @@ data class PengaturanData(
     /** 0 = mati. */
     val pengingatMinumMenit: Int = 30,
     val getar: Boolean = true,
+    val suara: Boolean = true,
     val gunungTerakhirId: String? = null,
     val jalurTerakhir: String? = null,
 ) {
@@ -67,6 +68,7 @@ class Pengaturan @Inject constructor(@ApplicationContext private val ctx: Contex
         val GPS_HEMAT = booleanPreferencesKey("gps_hemat")
         val MINUM = intPreferencesKey("minum_menit")
         val GETAR = booleanPreferencesKey("getar")
+        val SUARA = booleanPreferencesKey("suara")
         val GUNUNG_TERAKHIR = stringPreferencesKey("gunung_terakhir")
         val JALUR_TERAKHIR = stringPreferencesKey("jalur_terakhir")
 
@@ -98,6 +100,7 @@ class Pengaturan @Inject constructor(@ApplicationContext private val ctx: Contex
             gpsHemat = p[K.GPS_HEMAT] ?: false,
             pengingatMinumMenit = p[K.MINUM] ?: 30,
             getar = p[K.GETAR] ?: true,
+            suara = p[K.SUARA] ?: true,
             gunungTerakhirId = p[K.GUNUNG_TERAKHIR],
             jalurTerakhir = p[K.JALUR_TERAKHIR],
         )
@@ -111,6 +114,7 @@ class Pengaturan @Inject constructor(@ApplicationContext private val ctx: Contex
     suspend fun setGpsHemat(v: Boolean) = ctx.dataStore.edit { it[K.GPS_HEMAT] = v }
     suspend fun setPengingatMinum(menit: Int) = ctx.dataStore.edit { it[K.MINUM] = menit.coerceIn(0, 120) }
     suspend fun setGetar(v: Boolean) = ctx.dataStore.edit { it[K.GETAR] = v }
+    suspend fun setSuara(v: Boolean) = ctx.dataStore.edit { it[K.SUARA] = v }
     suspend fun setGunungTerakhir(gunungId: String, jalur: String?) = ctx.dataStore.edit {
         it[K.GUNUNG_TERAKHIR] = gunungId
         if (jalur == null) it.remove(K.JALUR_TERAKHIR) else it[K.JALUR_TERAKHIR] = jalur

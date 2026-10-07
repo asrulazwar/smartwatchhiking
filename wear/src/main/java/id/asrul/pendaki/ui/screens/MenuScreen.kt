@@ -28,6 +28,7 @@ fun MenuScreen(vm: HikeViewModel, onRute: (String) -> Unit) {
         R.string.menu_navigasi to Rute.NAVIGASI,
         R.string.menu_kondisi to Rute.KONDISI,
         R.string.menu_stres to Rute.STRES,
+        R.string.menu_riwayat to Rute.RIWAYAT,
         R.string.menu_pengaturan to Rute.PENGATURAN,
         R.string.menu_selesai to Rute.KONFIRMASI_SELESAI,
     )

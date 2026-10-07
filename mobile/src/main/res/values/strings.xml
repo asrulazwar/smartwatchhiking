@@ -4,6 +4,7 @@
     <string name="daftar_judul">Riwayat pendakian</string>
     <string name="daftar_kosong">Belum ada pendakian. Selesaikan pendakian di jam lalu ketuk "Kirim ke HP".</string>
     <string name="daftar_diterima">Diterima %1$s</string>
+    <string name="daftar_minta_jam">Minta sesi dari jam</string>
     <string name="detail_profil">Profil ketinggian</string>
     <string name="detail_statistik">Statistik</string>
     <string name="detail_pos">Pos</string>

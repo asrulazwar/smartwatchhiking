@@ -19,6 +19,7 @@ interface SesiDao {
     @Query("SELECT * FROM sesi WHERE gunungId = :gunungId AND namaJalur = :jalur AND aktif = 0 ORDER BY mulai DESC LIMIT 1")
     suspend fun terakhirDiJalur(gunungId: String, jalur: String): SesiEntity?
     @Query("UPDATE sesi SET terkirim = 1 WHERE id = :id") suspend fun tandaiTerkirim(id: String)
+    @Query("UPDATE sesi SET terkirim = 0 WHERE aktif = 0") suspend fun tandaiSemuaBelumTerkirim()
     @Query("UPDATE sesi SET offsetBaro = :offset WHERE id = :id") suspend fun simpanOffset(id: String, offset: Double)
     @Query("UPDATE sesi SET langkahAwal = :awal, langkah = :langkah WHERE id = :id") suspend fun simpanLangkah(id: String, awal: Long?, langkah: Int)
     @Query("DELETE FROM sesi WHERE id = :id") suspend fun hapus(id: String)

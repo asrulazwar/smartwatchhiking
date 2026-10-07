@@ -1,5 +1,7 @@
-# Kode aplikasi sendiri dipertahankan utuh (kecil); penyusutan terutama menyasar pustaka.
--keep class id.asrul.pendaki.** { *; }
+# Hanya model yang diserialisasi/dibaca lewat refleksi yang dipertahankan utuh; sisanya disusutkan R8.
+-keep class id.asrul.pendaki.shared.model.** { *; }
+-keep class id.asrul.pendaki.shared.datalayer.** { *; }
+-repackageclasses ''
 -keepattributes *Annotation*, InnerClasses, Signature, SourceFile, LineNumberTable
 
 # kotlinx.serialization (aturan resmi)

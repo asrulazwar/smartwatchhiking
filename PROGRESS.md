@@ -73,3 +73,10 @@ Ringkasan per bagian. Status: ✅ selesai · 🔄 sedang · ⏳ belum · ⚠️ 
 - Layar batas detak: tata letak baru (± di bawah angka, preset chip lebar penuh) agar tidak terpotong layar bulat.
 - Jumlah langkah (`TYPE_STEP_COUNTER`, tersimpan di Room, tahan reboot) dan jarak ditampilkan di layar utama, selesai, Tile, dan detail HP.
 - APK: varian debug kini dioptimasi R8 (tetap tanpa obfuscation), pustaka native hanya ARM.
+
+## Uji perangkat kedua — perbaikan
+- Sesi sempat tidak pernah dimulai (coroutine ViewModel layar Mulai dibatalkan saat layar ditutup) → mulai/selesai di scope aplikasi, satu HikeViewModel bersama.
+- Dasbor ditata ulang di dalam cincin: ketinggian, sisa naik, detak · SpO₂ · stres, jarak · langkah, m/jam · tiba, pos tercatat.
+- Suara (TTS Indonesia): detak tinggi, AMS, puncak, tiap 1 km; bisa dimatikan di Pengaturan.
+- Layar Riwayat di jam (kirim ulang ke HP / hapus) + tombol "Minta sesi dari jam" di HP (PATH_MINTA_SESI).
+- ProGuard dilonggarkan: hanya model serialisasi yang di-keep; Health Services tidak lagi di-keep penuh.

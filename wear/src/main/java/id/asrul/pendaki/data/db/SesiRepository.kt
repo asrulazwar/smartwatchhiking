@@ -24,6 +24,11 @@ class SesiRepository @Inject constructor(
 
     suspend fun belumTerkirim(): List<SesiEntity> = sesiDao.belumTerkirim()
     suspend fun tandaiTerkirim(id: String) = sesiDao.tandaiTerkirim(id)
+    suspend fun tandaiSemuaBelumTerkirim() = sesiDao.tandaiSemuaBelumTerkirim()
+    fun semua() = sesiDao.semua()
+    suspend fun hapus(id: String) {
+        titikDao.hapus(id); waypointDao.hapus(id); sampelDao.hapus(id); sesiDao.hapus(id)
+    }
     suspend fun aktif(): SesiEntity? = sesiDao.aktif()
 
     suspend fun waypointPendakianLama(gunungId: String, jalur: String?): List<WaypointEntity> {

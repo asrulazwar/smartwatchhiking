@@ -1,5 +1,6 @@
 package id.asrul.pendaki.domain
 
+import id.asrul.pendaki.R
 import id.asrul.pendaki.data.assets.GunungRepository
 import id.asrul.pendaki.data.datalayer.PhoneLink
 import id.asrul.pendaki.data.db.SampelDao
@@ -92,6 +93,7 @@ class HikeEngine @Inject constructor(
     private val health: HealthServicesManager,
     private val phone: PhoneLink,
     private val getar: Getar,
+    private val suara: Suara,
     @Primer private val spo2Primer: SpO2Source,
     @Fallback private val spo2Fallback: SpO2Source,
     @Primer private val stresPrimer: StressSource,
@@ -112,6 +114,7 @@ class HikeEngine @Inject constructor(
         class PengingatSpO2 : Kejadian()
         class PengingatMinum : Kejadian()
         class TawaranPos(val w: Waypoint) : Kejadian()
+        class KmTercapai(val km: Int) : Kejadian()
     }
 
     fun bersihkanKejadian() { _kejadian.value = null }
@@ -142,6 +145,7 @@ class HikeEngine @Inject constructor(
     private var langkahAwal: Long? = null
     private var langkahTersimpan = 0
     private var hrFallbackJob: Job? = null
+    private var kmTerakhir = 0
 
     // ---------------------------------------------------------------- memulai
 
@@ -158,7 +162,7 @@ class HikeEngine @Inject constructor(
         sesiDao.simpan(entity)
         pengaturan.setGunungTerakhir(gunung.id, jalur?.namaJalur)
         siapkanSesi(entity, gunung, jalur, emptyList())
-        langkahAwal = null; langkahTersimpan = 0
+        langkahAwal = null; langkahTersimpan = 0; kmTerakhir = 0
         // basecamp sebagai waypoint pertama (posisi diisi saat fix pertama)
         _state.update { it.copy(fase = Fase.MEREKAM) }
         Timber.i("Sesi dimulai: ${gunung.nama} via ${jalur?.namaJalur}")
@@ -179,6 +183,7 @@ class HikeEngine @Inject constructor(
         val stres = sampelDao.semua(e.id, SampelEntity.STRES).map { SampelStres(it.waktu, it.nilai.toInt(), it.ekstra ?: 0.0) }
         baselineRmssd = e.baselineRmssd
         langkahAwal = e.langkahAwal; langkahTersimpan = e.langkah
+        kmTerakhir = (SessionStats.jarak(titikCache) / 1000).toInt()
         val fase = when {
             e.waktuPuncak != null -> Fase.TURUN
             else -> Fase.MEREKAM
@@ -384,8 +389,16 @@ class HikeEngine @Inject constructor(
             val t = TitikJejak(fix.waktuMs, fix.lat, fix.lon, fix.altM, if (barometer.tersedia) ketinggian else null, hrTerakhir)
             titikCache.add(t)
             st.sesiId?.let { titikDao.simpan(TitikEntity(sesiId = it, waktu = t.waktu, lat = t.lat, lon = t.lon, altGps = t.altGps, altBaro = t.altBaro, hr = t.hr)) }
+            val jarak = SessionStats.jarak(titikCache)
             _state.update {
-                it.copy(jumlahTitik = titikCache.size, naikTotalM = SessionStats.naikTotal(titikCache), jarakM = SessionStats.jarak(titikCache))
+                it.copy(jumlahTitik = titikCache.size, naikTotalM = SessionStats.naikTotal(titikCache), jarakM = jarak)
+            }
+            val km = (jarak / 1000).toInt()
+            if (km > kmTerakhir) {
+                kmTerakhir = km
+                _kejadian.value = Kejadian.KmTercapai(km)
+                getar.ganda()
+                suara.ucapkan(R.string.suara_km, km)
             }
         }
 
@@ -398,6 +411,7 @@ class HikeEngine @Inject constructor(
                 _state.update { it.copy(fase = Fase.PUNCAK_TERDETEKSI, puncak = info) }
                 _kejadian.value = Kejadian.PuncakTerdeteksi(info)
                 getar.ganda()
+                suara.ucapkan(R.string.suara_puncak)
             }
         }
 
@@ -447,6 +461,7 @@ class HikeEngine @Inject constructor(
             _state.update { it.copy(peringatanHr = p) }
             _kejadian.value = Kejadian.PeringatanDetak(p)
             getar.panjang()
+            suara.ucapkan(R.string.suara_hr_tinggi)
         }
         // AMS dari detak istirahat
         if (istirahat != null && st.hrIstirahatBasecamp != null) {
@@ -597,6 +612,7 @@ class HikeEngine @Inject constructor(
         _state.update { it.copy(peringatanAms = p) }
         _kejadian.value = Kejadian.PeringatanAmsMuncul(p)
         getar.peringatan()
+        suara.ucapkan(R.string.suara_ams)
     }
 
     private suspend fun cekStresOtomatis(now: Long) {
