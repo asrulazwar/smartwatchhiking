@@ -27,6 +27,7 @@ import id.asrul.pendaki.data.prefs.Pengaturan
 import id.asrul.pendaki.data.prefs.PengaturanData
 import id.asrul.pendaki.shared.heart.HrThresholdMonitor
 import id.asrul.pendaki.ui.komponen.Label
+import id.asrul.pendaki.ui.komponen.LayarDasar
 import id.asrul.pendaki.ui.nav.Rute
 import id.asrul.pendaki.ui.theme.Warna
 import kotlinx.coroutines.flow.SharingStarted
