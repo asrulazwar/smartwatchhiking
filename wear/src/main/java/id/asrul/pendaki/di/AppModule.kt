@@ -5,6 +5,10 @@ import android.hardware.SensorManager
 import android.location.LocationManager
 import androidx.room.Room
 import id.asrul.pendaki.data.db.PendakiDatabase
+import id.asrul.pendaki.data.db.SampelDao
+import id.asrul.pendaki.data.db.SesiDao
+import id.asrul.pendaki.data.db.TitikDao
+import id.asrul.pendaki.data.db.WaypointDao
 import id.asrul.pendaki.data.sensor.HealthConnectSpO2Source
 import id.asrul.pendaki.data.sensor.HealthConnectStressSource
 import id.asrul.pendaki.data.sensor.SensorManagerSpO2Source
@@ -50,10 +54,10 @@ object AppModule {
             .fallbackToDestructiveMigration(dropAllTables = true)
             .build()
 
-    @Provides fun sesiDao(db: PendakiDatabase) = db.sesiDao()
-    @Provides fun titikDao(db: PendakiDatabase) = db.titikDao()
-    @Provides fun waypointDao(db: PendakiDatabase) = db.waypointDao()
-    @Provides fun sampelDao(db: PendakiDatabase) = db.sampelDao()
+    @Provides fun sesiDao(db: PendakiDatabase): SesiDao = db.sesiDao()
+    @Provides fun titikDao(db: PendakiDatabase): TitikDao = db.titikDao()
+    @Provides fun waypointDao(db: PendakiDatabase): WaypointDao = db.waypointDao()
+    @Provides fun sampelDao(db: PendakiDatabase): SampelDao = db.sampelDao()
 
     @Provides
     fun sensorManager(@ApplicationContext ctx: Context): SensorManager =

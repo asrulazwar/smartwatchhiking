@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import id.asrul.pendaki.mobile.data.db.HpDatabase
+import id.asrul.pendaki.mobile.data.db.SesiHpDao
 import javax.inject.Singleton
 
 @Module
@@ -20,5 +21,5 @@ object MobileModule {
             .fallbackToDestructiveMigration(dropAllTables = true)
             .build()
 
-    @Provides fun sesiDao(db: HpDatabase) = db.sesiDao()
+    @Provides fun sesiDao(db: HpDatabase): SesiHpDao = db.sesiDao()
 }
