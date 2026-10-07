@@ -9,7 +9,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import id.asrul.pendaki.domain.HikeEngine
+import id.asrul.pendaki.di.AppScope
 import id.asrul.pendaki.domain.HikeState
+import kotlinx.coroutines.CoroutineScope
 import id.asrul.pendaki.service.RekamService
 import id.asrul.pendaki.shared.model.Gunung
 import id.asrul.pendaki.shared.model.Jalur
@@ -23,6 +25,7 @@ import javax.inject.Inject
 class HikeViewModel @Inject constructor(
     @ApplicationContext private val ctx: Context,
     private val engine: HikeEngine,
+    @AppScope private val appScope: CoroutineScope,
 ) : ViewModel() {
     val state: StateFlow<HikeState> = engine.state
 
@@ -41,7 +44,11 @@ class HikeViewModel @Inject constructor(
     private fun cekIzinSekarang(): Boolean =
         ContextCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
 
-    fun mulai(gunung: Gunung, jalur: Jalur?) = viewModelScope.launch {
+    /**
+     * Dijalankan di scope aplikasi, BUKAN viewModelScope: layar Mulai ditutup segera setelah
+     * tombol ditekan, dan coroutine ViewModel-nya ikut dibatalkan sebelum sesi tersimpan.
+     */
+    fun mulai(gunung: Gunung, jalur: Jalur?) = appScope.launch {
         engine.mulai(gunung, jalur)
         RekamService.mulai(ctx)
     }
@@ -60,7 +67,7 @@ class HikeViewModel @Inject constructor(
     fun tutupPengingatMinum() = engine.tutupPengingatMinum()
     fun bersihkanKejadian() = engine.bersihkanKejadian()
 
-    fun selesai() = viewModelScope.launch {
+    fun selesai() = appScope.launch {
         engine.selesai()
         RekamService.hentikan(ctx)
         id.asrul.pendaki.data.sync.SyncWorker.jadwalkan(ctx)

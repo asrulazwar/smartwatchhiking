@@ -69,6 +69,7 @@ fun PendakiNavHost(ambient: Boolean) {
         composable(Rute.IZIN) { IzinScreen(onSelesai = { vm.cekIzin(); nav.navigate(Rute.MULAI) { popUpTo(Rute.IZIN) { inclusive = true } } }) }
         composable(Rute.MULAI) {
             MulaiScreen(
+                hike = vm,
                 onMulai = { nav.navigate(Rute.UTAMA) { popUpTo(Rute.MULAI) { inclusive = true } } },
                 onCariLain = { nav.navigate(Rute.PILIH_GUNUNG) },
                 onPilihJalur = { id -> nav.navigate(Rute.pilihJalur(id)) },
@@ -77,7 +78,7 @@ fun PendakiNavHost(ambient: Boolean) {
         composable(Rute.PILIH_GUNUNG) { PilihGunungScreen(onPilih = { id -> nav.navigate(Rute.pilihJalur(id)) }) }
         composable(Rute.PILIH_JALUR) { entry ->
             val gunungId = entry.arguments?.getString("gunungId") ?: return@composable
-            PilihJalurScreen(gunungId = gunungId, onMulai = { nav.navigate(Rute.UTAMA) { popUpTo(Rute.MULAI) { inclusive = true } } })
+            PilihJalurScreen(gunungId = gunungId, hike = vm, onMulai = { nav.navigate(Rute.UTAMA) { popUpTo(Rute.MULAI) { inclusive = true } } })
         }
         composable(Rute.UTAMA) { UtamaScreen(vm, ambient = ambient, onMenu = { nav.navigate(Rute.MENU) }) }
         composable(Rute.MENU) { MenuScreen(vm, onRute = { nav.navigate(it) }) }

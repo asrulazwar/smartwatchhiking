@@ -56,19 +56,18 @@ fun UtamaScreen(vm: HikeViewModel, ambient: Boolean, onMenu: () -> Unit) {
     LayarDasar(modifier = Modifier.clickable(onClick = onMenu)) {
         CincinProgres(progres = st.progres, tebal = 4.dp, mulaiDeg = 120f, sapuanDeg = 300f)
         Column(
-            modifier = Modifier.fillMaxSize().padding(horizontal = 26.dp, vertical = 18.dp),
+            modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 14.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            Text(Format.jam(st.sekarang), color = Warna.Sekunder, style = MaterialTheme.typography.caption1)
+            Text(Format.jam(st.sekarang), color = Warna.Sekunder, style = MaterialTheme.typography.caption2)
             Text(
                 g?.let { if (st.jalur != null) stringResource(R.string.utama_gunung_jalur, it.nama, st.jalur!!.namaJalur) else stringResource(R.string.utama_gunung, it.nama) } ?: "",
-                color = Warna.Teks, style = MaterialTheme.typography.body2, textAlign = TextAlign.Center, maxLines = 1,
+                color = Warna.Teks, style = MaterialTheme.typography.caption1, textAlign = TextAlign.Center, maxLines = 1,
             )
-            Spacer(Modifier.height(2.dp))
             // Ketinggian: barometer terkalibrasi; sebelum ada, pakai bacaan mentah/GPS dengan keterangan.
             val alt = st.ketinggianM ?: st.altGps
-            AngkaBesar(alt?.let { Format.ribuan(it) } ?: "—")
+            AngkaBesar(alt?.let { Format.ribuan(it) } ?: "—", style = MaterialTheme.typography.display2)
             Label(
                 when {
                     alt == null && st.barometerAda -> stringResource(R.string.utama_menunggu_baro)
@@ -77,21 +76,21 @@ fun UtamaScreen(vm: HikeViewModel, ambient: Boolean, onMenu: () -> Unit) {
                     else -> "${stringResource(R.string.mdpl)} · ${stringResource(R.string.utama_puncak, Format.ribuan(g?.elevasi ?: 0))}"
                 },
             )
-            Spacer(Modifier.height(6.dp))
+            Spacer(Modifier.height(2.dp))
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
-                Icon(Icons.Rounded.KeyboardArrowUp, contentDescription = null, tint = Warna.Oranye, modifier = Modifier.size(18.dp))
-                Text(st.sisaNaikM?.let { "${Format.ribuan(it.coerceAtLeast(0.0))} m" } ?: "— m", color = Warna.Oranye, style = MaterialTheme.typography.title1)
+                Icon(Icons.Rounded.KeyboardArrowUp, contentDescription = null, tint = Warna.Oranye, modifier = Modifier.size(16.dp))
+                Text(st.sisaNaikM?.let { "${Format.ribuan(it.coerceAtLeast(0.0))} m" } ?: "— m", color = Warna.Oranye, style = MaterialTheme.typography.title2)
                 Spacer(Modifier.width(4.dp))
                 Text(stringResource(R.string.utama_lagi), color = Warna.Sekunder, style = MaterialTheme.typography.caption1)
             }
-            Spacer(Modifier.height(4.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+            Spacer(Modifier.height(2.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 Kolom(nilai = Format.jarak(st.jarakM), label = stringResource(R.string.utama_jarak))
                 Kolom(nilai = Format.ribuan(st.langkah), label = stringResource(R.string.utama_langkah))
                 Kolom(nilai = st.kecepatanNaikMPerJam?.let { Format.ribuan(it) } ?: "—", label = stringResource(R.string.utama_m_per_jam))
                 Kolom(nilai = st.perkiraanTiba?.let { Format.jam(it) } ?: "—", label = stringResource(R.string.utama_tiba))
             }
-            Spacer(Modifier.height(6.dp))
+            Spacer(Modifier.height(4.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                 ChipNilai(ikon = { Icon(Icons.Rounded.Favorite, contentDescription = null, tint = Warna.Merah, modifier = Modifier.size(14.dp)) }, nilai = st.hr?.toString() ?: "—")
                 ChipNilai(ikon = { Text(stringResource(R.string.utama_spo2), color = Warna.BiruSpO2, style = MaterialTheme.typography.caption2) }, nilai = st.spo2?.let { "${it.nilai}%" } ?: "—", warna = Warna.BiruSpO2)
@@ -103,7 +102,7 @@ fun UtamaScreen(vm: HikeViewModel, ambient: Boolean, onMenu: () -> Unit) {
 @Composable
 private fun Kolom(nilai: String, label: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(nilai, color = Warna.Teks, style = MaterialTheme.typography.title2, maxLines = 1)
-        Text(label, color = Warna.Sekunder, style = MaterialTheme.typography.caption2)
+        Text(nilai, color = Warna.Teks, style = MaterialTheme.typography.title3, maxLines = 1)
+        Text(label, color = Warna.Sekunder, style = MaterialTheme.typography.caption3)
     }
 }

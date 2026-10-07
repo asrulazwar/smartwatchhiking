@@ -41,8 +41,8 @@ fun MulaiScreen(
     onMulai: () -> Unit,
     onCariLain: () -> Unit,
     onPilihJalur: (String) -> Unit,
+    hike: HikeViewModel,
     vm: MulaiViewModel = hiltViewModel(),
-    hike: HikeViewModel = hiltViewModel(),
 ) {
     val st by vm.state.collectAsStateWithLifecycle()
     val hikeState by hike.state.collectAsStateWithLifecycle()
@@ -128,7 +128,7 @@ fun PilihGunungScreen(onPilih: (String) -> Unit, vm: MulaiViewModel = hiltViewMo
 }
 
 @Composable
-fun PilihJalurScreen(gunungId: String, onMulai: () -> Unit, vm: MulaiViewModel = hiltViewModel(), hike: HikeViewModel = hiltViewModel()) {
+fun PilihJalurScreen(gunungId: String, onMulai: () -> Unit, hike: HikeViewModel, vm: MulaiViewModel = hiltViewModel()) {
     val st by vm.state.collectAsStateWithLifecycle()
     androidx.compose.runtime.LaunchedEffect(gunungId) { vm.pilihGunung(gunungId) }
     val g = st.gunungDipilih
