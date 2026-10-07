@@ -38,3 +38,6 @@ Kedua aplikasi memakai `applicationId` yang sama (`id.asrul.pendaki`) supaya Wea
 5. Konsumsi baterai dengan GPS interval 15 detik selama 10 jam.
 
 Lihat `CLAUDE.md` untuk arsitektur dan `DECISIONS.md` untuk keputusan desain.
+
+## Lisensi font
+`wear/src/main/res/font/manrope.ttf` adalah Manrope (© The Manrope Project Authors), berlisensi SIL Open Font License 1.1 — https://github.com/googlefonts/manrope.
