@@ -63,3 +63,13 @@ dapat diakses dari lingkungan agen). Validasi skema dilakukan offline dengan `ja
 `ChannelClient` untuk payload (JSON gzip), `DataClient` untuk metadata ringan. Sesi yang belum
 dikonfirmasi HP (`/pendaki/sesi-diterima`) ditandai `terkirim=false` di Room dan dikirim ulang oleh
 `WorkManager` (`SyncWorker`) saat ada node HP terhubung.
+
+## 2026-10-07 · Ukuran APK
+APK debug jam pertama 43 MB (dex tidak disusutkan dan disimpan tanpa kompresi). Keputusan:
+- Varian debug juga memakai R8 + resource shrinking, tetapi `-dontobfuscate -dontoptimize`
+  (`proguard-debug.pro`) agar stack trace tetap terbaca; kode `id.asrul.pendaki.**` dipertahankan utuh.
+- Varian release (obfuscate + optimasi penuh, ditandatangani kunci debug karena hanya dipasang lewat ADB)
+  ikut dibangun dan diterbitkan di prerelease `apk-latest` sebagai `pendaki-*-release.apk`.
+- Dependensi yang tidak dipakai dibuang dari `:wear`: `horologist-compose-layout`, `protolayout-material`,
+  `protolayout-expression` (Horologist tetap dipakai untuk `SuspendingTileService`; rotary ditangani
+  bawaan `ScalingLazyColumn` Wear Compose 1.5).

@@ -27,7 +27,7 @@ jobs:
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
       - name: Build debug APKs
-        run: ./gradlew --no-daemon :wear:assembleDebug :mobile:assembleDebug
+        run: ./gradlew --no-daemon :wear:assembleDebug :mobile:assembleDebug :wear:assembleRelease :mobile:assembleRelease
 
       - name: Unit tests
         run: ./gradlew --no-daemon testDebugUnitTest :shared:test
@@ -44,6 +44,20 @@ jobs:
         with:
           name: mobile-debug
           path: mobile/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+
+      - name: Upload wear-release
+        uses: actions/upload-artifact@v4
+        with:
+          name: wear-release
+          path: wear/build/outputs/apk/release/*.apk
+          if-no-files-found: error
+
+      - name: Upload mobile-release
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-release
+          path: mobile/build/outputs/apk/release/*.apk
           if-no-files-found: error
 
       - name: Upload test reports
@@ -73,10 +87,20 @@ jobs:
         with:
           name: mobile-debug
           path: apk/mobile
+      - uses: actions/download-artifact@v4
+        with:
+          name: wear-release
+          path: apk/wear-release
+      - uses: actions/download-artifact@v4
+        with:
+          name: mobile-release
+          path: apk/mobile-release
       - name: Rename APKs
         run: |
           mv apk/wear/*.apk pendaki-wear-debug.apk
           mv apk/mobile/*.apk pendaki-mobile-debug.apk
+          mv apk/wear-release/*.apk pendaki-wear-release.apk
+          mv apk/mobile-release/*.apk pendaki-mobile-release.apk
           ls -la *.apk
       - uses: softprops/action-gh-release@v2
         with:
@@ -87,3 +111,5 @@ jobs:
           files: |
             pendaki-wear-debug.apk
             pendaki-mobile-debug.apk
+            pendaki-wear-release.apk
+            pendaki-mobile-release.apk

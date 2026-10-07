@@ -22,7 +22,11 @@ android {
 
     buildTypes {
         debug {
-            isMinifyEnabled = false
+            // Shrink juga di debug agar APK kecil di jam, tetapi tanpa obfuscation supaya
+            // stack trace dan log tetap terbaca.
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro", "proguard-debug.pro")
         }
         release {
             isMinifyEnabled = true

@@ -22,7 +22,11 @@ android {
 
     buildTypes {
         debug {
-            isMinifyEnabled = false
+            // Shrink juga di debug agar APK kecil di jam, tetapi tanpa obfuscation supaya
+            // stack trace dan log tetap terbaca.
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro", "proguard-debug.pro")
         }
         release {
             isMinifyEnabled = true
@@ -81,8 +85,8 @@ dependencies {
     implementation(libs.compose.ui.graphics)
     implementation(libs.compose.foundation)
     implementation(libs.compose.material.icons.core)
-    implementation(libs.compose.ui.tooling.preview)
     debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(libs.compose.ui.tooling.preview)
 
     implementation(libs.wear.compose.material)
     implementation(libs.wear.compose.foundation)
@@ -92,11 +96,8 @@ dependencies {
     implementation(libs.wear.ongoing)
     implementation(libs.wear.tiles)
     implementation(libs.wear.protolayout)
-    implementation(libs.wear.protolayout.material)
-    implementation(libs.wear.protolayout.expression)
     implementation(libs.wear.complications.datasource.ktx)
 
-    implementation(libs.horologist.compose.layout)
     implementation(libs.horologist.tiles)
 
     implementation(libs.health.services.client)
