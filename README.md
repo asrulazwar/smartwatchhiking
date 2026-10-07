@@ -11,7 +11,7 @@ Prasyarat: JDK 17, Android SDK (compileSdk 35).
 cd shared && ../gradlew test     # hanya :shared, tanpa Android SDK
 ```
 APK: `wear/build/outputs/apk/debug/wear-debug.apk` dan `mobile/build/outputs/apk/debug/mobile-debug.apk`.
-GitHub Actions membangun keduanya dan mengunggah artefak `wear-debug` dan `mobile-debug`.
+GitHub Actions membangun keduanya, mengunggah artefak `wear-debug` dan `mobile-debug`, dan menerbitkan keduanya ke prerelease bergulir **apk-latest**: https://github.com/asrulazwar/smartwatchhiking/releases/tag/apk-latest
 
 ## Pair ADB ke jam (wireless)
 1. Di jam: **Settings → About → ketuk Build number 7×** untuk membuka Developer options.

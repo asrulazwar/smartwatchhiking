@@ -55,3 +55,35 @@ jobs:
             **/build/reports/tests/**
             **/build/test-results/**
           if-no-files-found: ignore
+
+  # Terbitkan APK debug ke prerelease bergulir "apk-latest" agar mudah diunduh tanpa login
+  # (artefak Actions butuh login dan dilayani dari host yang sering diblokir proxy).
+  release:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: wear-debug
+          path: apk/wear
+      - uses: actions/download-artifact@v4
+        with:
+          name: mobile-debug
+          path: apk/mobile
+      - name: Rename APKs
+        run: |
+          mv apk/wear/*.apk pendaki-wear-debug.apk
+          mv apk/mobile/*.apk pendaki-mobile-debug.apk
+          ls -la *.apk
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk-latest
+          name: APK debug terbaru (${{ github.sha }})
+          body: "Build otomatis dari ${{ github.ref_name }} @ ${{ github.sha }}. Pasang lewat ADB (lihat README)."
+          prerelease: true
+          files: |
+            pendaki-wear-debug.apk
+            pendaki-mobile-debug.apk
