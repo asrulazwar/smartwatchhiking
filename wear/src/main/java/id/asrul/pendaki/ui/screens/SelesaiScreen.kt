@@ -3,9 +3,7 @@ package id.asrul.pendaki.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,7 +13,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.PositionIndicator
+import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
 import id.asrul.pendaki.R
 import id.asrul.pendaki.domain.StatusKirim
@@ -43,42 +45,41 @@ fun KonfirmasiSelesaiScreen(vm: HikeViewModel, onBatal: () -> Unit, onSelesai: (
     }
 }
 
-/** Layar Selesai (mockup 12): ringkasan dan "Kirim ke HP & ekspor". */
+/** Layar Selesai (mockup 12): ringkasan dan "Kirim ke HP & ekspor". Bisa digulir agar tidak terpotong. */
 @Composable
 fun SelesaiScreen(vm: HikeViewModel, onTutup: () -> Unit) {
     val st by vm.state.collectAsStateWithLifecycle()
+    val listState = rememberScalingLazyListState()
     LayarDasar {
-        KolomTengah(spasi = 2.dp) {
-            Label(stringResource(R.string.selesai_judul), warna = Warna.Hijau)
-            Text(st.judul.replace(" · ", " "), color = Warna.Teks, style = MaterialTheme.typography.title2, textAlign = TextAlign.Center, maxLines = 1)
-            Spacer(Modifier.height(4.dp))
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                Statistik(stringResource(R.string.selesai_waktu), Format.durasi(st.durasiMs))
-                Statistik(stringResource(R.string.selesai_jarak), Format.jarak(st.jarakM))
-            }
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                Statistik(stringResource(R.string.selesai_naik), "${Format.ribuan(st.naikTotalM)} m")
-                Statistik(stringResource(R.string.selesai_detak), st.hrRata?.toString() ?: "—")
-            }
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                Statistik(stringResource(R.string.selesai_langkah), Format.ribuan(st.langkah))
-                Statistik(stringResource(R.string.selesai_pos), st.jumlahPosTercatat.toString())
-            }
-            Label(stringResource(R.string.selesai_titik_pos, Format.ribuan(st.jumlahTitik), st.jumlahPosTercatat))
-            Spacer(Modifier.height(4.dp))
-            when (st.statusKirim) {
-                StatusKirim.BELUM -> TombolAksi(stringResource(R.string.selesai_kirim), onClick = { vm.kirimKeHp() })
-                StatusKirim.MENGIRIM -> TombolSekunder(stringResource(R.string.selesai_mengirim), onClick = {})
-                StatusKirim.TERKIRIM -> {
-                    Label(stringResource(R.string.selesai_terkirim), warna = Warna.Hijau)
-                    TombolSekunder(stringResource(R.string.kembali), onClick = onTutup)
+        Scaffold(positionIndicator = { PositionIndicator(scalingLazyListState = listState) }) {
+            ScalingLazyColumn(state = listState, modifier = Modifier.fillMaxWidth()) {
+                item { Label(stringResource(R.string.selesai_judul), warna = Warna.Hijau) }
+                item { Text(st.judul.replace(" · ", " "), color = Warna.Teks, style = MaterialTheme.typography.title2, textAlign = TextAlign.Center, maxLines = 2) }
+                item { BarisStat(stringResource(R.string.selesai_waktu), Format.durasi(st.durasiMs), stringResource(R.string.selesai_jarak), Format.jarak(st.jarakM)) }
+                item { BarisStat(stringResource(R.string.selesai_naik), "${Format.ribuan(st.naikTotalM)} m", stringResource(R.string.selesai_detak), st.hrRata?.toString() ?: "—") }
+                item { BarisStat(stringResource(R.string.selesai_langkah), Format.ribuan(st.langkah), stringResource(R.string.selesai_pos), st.jumlahPosTercatat.toString()) }
+                item { Label(stringResource(R.string.selesai_titik_pos, Format.ribuan(st.jumlahTitik), st.jumlahPosTercatat)) }
+                item {
+                    when (st.statusKirim) {
+                        StatusKirim.BELUM -> TombolAksi(stringResource(R.string.selesai_kirim), onClick = { vm.kirimKeHp() }, modifier = Modifier.padding(top = 4.dp))
+                        StatusKirim.MENGIRIM -> TombolSekunder(stringResource(R.string.selesai_mengirim), onClick = {})
+                        StatusKirim.TERKIRIM -> Label(stringResource(R.string.selesai_terkirim), warna = Warna.Hijau)
+                        StatusKirim.ANTRE -> Label(stringResource(R.string.selesai_antre), warna = Warna.Oranye)
+                    }
                 }
-                StatusKirim.ANTRE -> {
-                    Label(stringResource(R.string.selesai_antre), warna = Warna.Oranye)
-                    TombolSekunder(stringResource(R.string.kembali), onClick = onTutup)
+                if (st.statusKirim == StatusKirim.TERKIRIM || st.statusKirim == StatusKirim.ANTRE) {
+                    item { TombolSekunder(stringResource(R.string.kembali), onClick = onTutup) }
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun BarisStat(label1: String, nilai1: String, label2: String, nilai2: String) {
+    Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp), horizontalArrangement = Arrangement.SpaceEvenly) {
+        Statistik(label1, nilai1)
+        Statistik(label2, nilai2)
     }
 }
 
