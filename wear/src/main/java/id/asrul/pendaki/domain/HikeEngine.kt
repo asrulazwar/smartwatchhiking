@@ -139,7 +139,7 @@ class HikeEngine @Inject constructor(
     // ---------------------------------------------------------------- memulai
 
     /** Memulai sesi baru. Dipanggil dari layar Mulai, lalu service dihidupkan. */
-    suspend fun mulai(gunung: Gunung, jalur: Jalur?) = mutex.withLock {
+    suspend fun mulai(gunung: Gunung, jalur: Jalur?): Unit = mutex.withLock {
         if (_state.value.sedangAktif) return
         val id = UUID.randomUUID().toString()
         val now = System.currentTimeMillis()
@@ -602,7 +602,7 @@ class HikeEngine @Inject constructor(
 
     // ---------------------------------------------------------------- selesai & kirim
 
-    suspend fun selesai() = mutex.withLock {
+    suspend fun selesai(): Unit = mutex.withLock {
         val st = _state.value
         val id = st.sesiId ?: return
         val now = System.currentTimeMillis()
