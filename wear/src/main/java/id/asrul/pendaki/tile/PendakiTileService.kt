@@ -102,8 +102,16 @@ class PendakiTileService : SuspendingTileService() {
                 .addContent(Spacer.Builder().setHeight(dp(6f)).build())
                 .addContent(
                     Row.Builder()
-                        .addContent(kolomStat("NAIK TOTAL", Format.ribuan(s.naikTotalM)))
-                        .addContent(Spacer.Builder().setWidth(dp(14f)).build())
+                        .addContent(kolomStat("NAIK", Format.ribuan(s.naikTotalM)))
+                        .addContent(Spacer.Builder().setWidth(dp(10f)).build())
+                        .addContent(kolomStat("JARAK", Format.jarak(s.jarakM)))
+                        .addContent(Spacer.Builder().setWidth(dp(10f)).build())
+                        .addContent(kolomStat("LANGKAH", Format.ribuan(s.langkah)))
+                        .build()
+                )
+                .addContent(Spacer.Builder().setHeight(dp(4f)).build())
+                .addContent(
+                    Row.Builder()
                         .addContent(kolomStat("DETAK", s.hr?.toString() ?: "—", MERAH))
                         .addContent(Spacer.Builder().setWidth(dp(14f)).build())
                         .addContent(kolomStat("SpO₂", s.spo2?.let { "$it%" } ?: "—", BIRU))

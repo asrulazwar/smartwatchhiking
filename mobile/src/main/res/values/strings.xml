@@ -24,6 +24,7 @@
     <string name="stat_pos">Pos</string>
     <string name="stat_titik">Titik</string>
     <string name="stat_puncak">Puncak</string>
+    <string name="stat_langkah">Langkah</string>
     <string name="ekspor_judul">Ekspor pendakian</string>
     <string name="ekspor_diterima">Diterima dari jam · %1$s</string>
     <string name="ekspor_km">km</string>

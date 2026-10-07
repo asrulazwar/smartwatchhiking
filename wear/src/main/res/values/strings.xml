@@ -56,7 +56,11 @@
     <string name="utama_tiba">tiba</string>
     <string name="utama_tiba_nilai">±%1$s</string>
     <string name="utama_spo2">SpO₂</string>
-    <string name="utama_menunggu_baro">kalibrasi…</string>
+    <string name="utama_menunggu_baro">menunggu barometer…</string>
+    <string name="utama_menunggu_gps">menunggu GPS…</string>
+    <string name="utama_belum_kalibrasi">mdpl · belum terkalibrasi</string>
+    <string name="utama_langkah">langkah</string>
+    <string name="utama_jarak">jarak</string>
     <string name="utama_gunung_jalur">Gn. %1$s · via %2$s</string>
     <string name="utama_gunung">Gn. %1$s</string>
     <string name="menu_pos">Catat pos</string>
@@ -75,7 +79,8 @@
     <string name="pos_basecamp">Basecamp</string>
     <string name="pos_perkiraan">±%1$s</string>
     <string name="pos_tawaran">Sampai %1$s?</string>
-    <string name="pos_pilih_nama">Nama pos</string>
+    <string name="pos_pilih_nama">Catat dengan nama lain…</string>
+    <string name="pos_pilih_jenis">Pilih jenis pos</string>
     <string name="pos_tercatat">%1$s tercatat</string>
     <string name="pos_puncak">Puncak</string>
 
@@ -116,7 +121,7 @@
     <!-- batas detak -->
     <string name="batas_judul">Pengaturan</string>
     <string name="batas_sub">Batas detak jantung</string>
-    <string name="batas_keterangan">Getar kalau di atas batas lebih dari 30 detik. Putar crown untuk mengubah.</string>
+    <string name="batas_keterangan">Getar kalau di atas batas lebih dari 30 detik. Putar crown atau ketuk ± untuk mengubah.</string>
     <string name="batas_santai">Santai 140</string>
     <string name="batas_normal">Normal 155</string>
     <string name="batas_kuat">Kuat 170</string>
@@ -154,6 +159,8 @@
     <string name="selesai_jarak">JARAK</string>
     <string name="selesai_naik">NAIK</string>
     <string name="selesai_detak">DETAK RATA²</string>
+    <string name="selesai_langkah">LANGKAH</string>
+    <string name="selesai_pos">POS</string>
     <string name="selesai_titik_pos">%1$s titik · %2$d pos tersimpan di jam</string>
     <string name="selesai_kirim">Kirim ke HP &amp; ekspor</string>
     <string name="selesai_mengirim">Mengirim…</string>

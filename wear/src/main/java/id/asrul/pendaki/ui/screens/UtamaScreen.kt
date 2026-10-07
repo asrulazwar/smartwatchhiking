@@ -54,7 +54,7 @@ fun UtamaScreen(vm: HikeViewModel, ambient: Boolean, onMenu: () -> Unit) {
     }
 
     LayarDasar(modifier = Modifier.clickable(onClick = onMenu)) {
-        CincinProgres(progres = st.progres)
+        CincinProgres(progres = st.progres, tebal = 4.dp, mulaiDeg = 120f, sapuanDeg = 300f)
         Column(
             modifier = Modifier.fillMaxSize().padding(horizontal = 26.dp, vertical = 18.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -66,10 +66,16 @@ fun UtamaScreen(vm: HikeViewModel, ambient: Boolean, onMenu: () -> Unit) {
                 color = Warna.Teks, style = MaterialTheme.typography.body2, textAlign = TextAlign.Center, maxLines = 1,
             )
             Spacer(Modifier.height(2.dp))
-            AngkaBesar(st.ketinggianM?.let { Format.ribuan(it) } ?: "—")
+            // Ketinggian: barometer terkalibrasi; sebelum ada, pakai bacaan mentah/GPS dengan keterangan.
+            val alt = st.ketinggianM ?: st.altGps
+            AngkaBesar(alt?.let { Format.ribuan(it) } ?: "—")
             Label(
-                if (st.ketinggianM == null && !st.kalibrasiSiap) stringResource(R.string.utama_menunggu_baro)
-                else "${stringResource(R.string.mdpl)} · ${stringResource(R.string.utama_puncak, Format.ribuan(g?.elevasi ?: 0))}",
+                when {
+                    alt == null && st.barometerAda -> stringResource(R.string.utama_menunggu_baro)
+                    alt == null -> stringResource(R.string.utama_menunggu_gps)
+                    !st.kalibrasiSiap -> stringResource(R.string.utama_belum_kalibrasi)
+                    else -> "${stringResource(R.string.mdpl)} · ${stringResource(R.string.utama_puncak, Format.ribuan(g?.elevasi ?: 0))}"
+                },
             )
             Spacer(Modifier.height(6.dp))
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
@@ -79,9 +85,11 @@ fun UtamaScreen(vm: HikeViewModel, ambient: Boolean, onMenu: () -> Unit) {
                 Text(stringResource(R.string.utama_lagi), color = Warna.Sekunder, style = MaterialTheme.typography.caption1)
             }
             Spacer(Modifier.height(4.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+                Kolom(nilai = Format.jarak(st.jarakM), label = stringResource(R.string.utama_jarak))
+                Kolom(nilai = Format.ribuan(st.langkah), label = stringResource(R.string.utama_langkah))
                 Kolom(nilai = st.kecepatanNaikMPerJam?.let { Format.ribuan(it) } ?: "—", label = stringResource(R.string.utama_m_per_jam))
-                Kolom(nilai = st.perkiraanTiba?.let { stringResource(R.string.utama_tiba_nilai, Format.jam(it)) } ?: "—", label = stringResource(R.string.utama_tiba))
+                Kolom(nilai = st.perkiraanTiba?.let { Format.jam(it) } ?: "—", label = stringResource(R.string.utama_tiba))
             }
             Spacer(Modifier.height(6.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {

@@ -116,7 +116,7 @@ fun NamaPosScreen(vm: HikeViewModel, onSelesai: () -> Unit) {
     LayarDasar {
         Scaffold(positionIndicator = { PositionIndicator(scalingLazyListState = listState) }) {
             ScalingLazyColumn(state = listState, modifier = Modifier.fillMaxWidth()) {
-                item { Label(stringResource(R.string.pos_pilih_nama)) }
+                item { Label(stringResource(R.string.pos_pilih_jenis)) }
                 items(PresetNamaPos.daftar.size) { i ->
                     val nama = PresetNamaPos.daftar[i]
                     TombolSekunder(nama, onClick = { vm.catatPos(nama); onSelesai() })

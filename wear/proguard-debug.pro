@@ -1,3 +1,2 @@
-# Varian debug: susutkan tapi jangan obfuscate/optimasi agresif agar mudah di-debug.
+# Varian debug: susutkan & optimasi, tetapi jangan obfuscate agar stack trace terbaca.
 -dontobfuscate
--dontoptimize

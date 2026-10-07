@@ -60,6 +60,10 @@ fun SelesaiScreen(vm: HikeViewModel, onTutup: () -> Unit) {
                 Statistik(stringResource(R.string.selesai_naik), "${Format.ribuan(st.naikTotalM)} m")
                 Statistik(stringResource(R.string.selesai_detak), st.hrRata?.toString() ?: "—")
             }
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                Statistik(stringResource(R.string.selesai_langkah), Format.ribuan(st.langkah))
+                Statistik(stringResource(R.string.selesai_pos), st.jumlahPosTercatat.toString())
+            }
             Label(stringResource(R.string.selesai_titik_pos, Format.ribuan(st.jumlahTitik), st.jumlahPosTercatat))
             Spacer(Modifier.height(4.dp))
             when (st.statusKirim) {

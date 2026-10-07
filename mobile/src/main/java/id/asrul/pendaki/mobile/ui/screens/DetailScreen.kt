@@ -75,6 +75,7 @@ fun DetailScreen(id: String, onEkspor: () -> Unit, onKembali: () -> Unit, vm: De
                 Stat(r.jumlahPos.toString(), stringResource(R.string.stat_pos))
                 Stat(Format.ribuan(r.jumlahTitik), stringResource(R.string.stat_titik))
             }
+            s.langkah?.let { Text("${stringResource(R.string.stat_langkah)}: ${Format.ribuan(it)}", color = Warna.Teks) }
             s.waktuPuncak?.let { Text("${stringResource(R.string.stat_puncak)}: ${Format.jam(it)} · ${Format.durasi(it - s.mulai)} dari basecamp", color = Warna.Hijau) }
 
             Judul(stringResource(R.string.detail_pos))
