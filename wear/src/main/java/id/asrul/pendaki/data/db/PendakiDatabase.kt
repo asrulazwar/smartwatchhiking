@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase
 @Database(
     entities = [SesiEntity::class, TitikEntity::class, WaypointEntity::class, SampelEntity::class],
     version = 2,
-    exportSchema = true,
+    exportSchema = false,
 )
 abstract class PendakiDatabase : RoomDatabase() {
     abstract fun sesiDao(): SesiDao

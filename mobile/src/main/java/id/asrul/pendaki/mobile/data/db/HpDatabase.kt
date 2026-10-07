@@ -57,7 +57,7 @@ interface SesiHpDao {
     @Query("DELETE FROM sesi_hp WHERE id = :id") suspend fun hapus(id: String)
 }
 
-@Database(entities = [SesiHpEntity::class], version = 1, exportSchema = true)
+@Database(entities = [SesiHpEntity::class], version = 1, exportSchema = false)
 abstract class HpDatabase : RoomDatabase() {
     abstract fun sesiDao(): SesiHpDao
 }
