@@ -63,6 +63,8 @@
     <string name="utama_jarak">jarak</string>
     <string name="utama_gunung_jalur">Gn. %1$s · via %2$s</string>
     <string name="utama_gunung">Gn. %1$s</string>
+    <string name="utama_pos_n">Pos %1$d/%2$d</string>
+    <string name="utama_pos">Pos %1$d</string>
     <string name="menu_pos">Catat pos</string>
     <string name="menu_navigasi">Navigasi balik</string>
     <string name="menu_kondisi">Detak &amp; SpO₂</string>

@@ -61,10 +61,13 @@ fun UtamaScreen(vm: HikeViewModel, ambient: Boolean, onMenu: () -> Unit) {
             verticalArrangement = Arrangement.Center,
         ) {
             Text(Format.jam(st.sekarang), color = Warna.Sekunder, style = MaterialTheme.typography.caption2)
-            Text(
-                g?.let { if (st.jalur != null) stringResource(R.string.utama_gunung_jalur, it.nama, st.jalur!!.namaJalur) else stringResource(R.string.utama_gunung, it.nama) } ?: "",
-                color = Warna.Teks, style = MaterialTheme.typography.caption1, textAlign = TextAlign.Center, maxLines = 1,
-            )
+            val judul = g?.let { if (st.jalur != null) stringResource(R.string.utama_gunung_jalur, it.nama, st.jalur!!.namaJalur) else stringResource(R.string.utama_gunung, it.nama) } ?: ""
+            val pos = when {
+                st.daftarPos.isNotEmpty() -> " · ${stringResource(R.string.utama_pos_n, st.jumlahPosTercatat, st.daftarPos.size)}"
+                st.jumlahPosTercatat > 0 -> " · ${stringResource(R.string.utama_pos, st.jumlahPosTercatat)}"
+                else -> ""
+            }
+            Text(judul + pos, color = Warna.Teks, style = MaterialTheme.typography.caption1, textAlign = TextAlign.Center, maxLines = 1)
             // Ketinggian: barometer terkalibrasi; sebelum ada, pakai bacaan mentah/GPS dengan keterangan.
             val alt = st.ketinggianM ?: st.altGps
             AngkaBesar(alt?.let { Format.ribuan(it) } ?: "—", style = MaterialTheme.typography.display2)
