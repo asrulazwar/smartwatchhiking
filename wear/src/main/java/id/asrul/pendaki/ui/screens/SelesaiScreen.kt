@@ -67,9 +67,7 @@ fun SelesaiScreen(vm: HikeViewModel, onTutup: () -> Unit) {
                         StatusKirim.ANTRE -> Label(stringResource(R.string.selesai_antre), warna = Warna.Oranye)
                     }
                 }
-                if (st.statusKirim == StatusKirim.TERKIRIM || st.statusKirim == StatusKirim.ANTRE) {
-                    item { TombolSekunder(stringResource(R.string.kembali), onClick = onTutup) }
-                }
+                item { TombolSekunder(stringResource(R.string.selesai_mulai_baru), onClick = onTutup) }
             }
         }
     }

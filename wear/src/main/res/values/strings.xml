@@ -168,6 +168,7 @@
     <string name="selesai_antre">HP tidak terhubung · akan dikirim otomatis</string>
     <string name="selesai_konfirmasi">Akhiri pendakian?</string>
     <string name="selesai_akhiri">Akhiri</string>
+    <string name="selesai_mulai_baru">Mulai pendakian baru</string>
 
     <!-- pengaturan -->
     <string name="set_judul">Pengaturan</string>
