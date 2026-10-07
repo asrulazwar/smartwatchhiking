@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="hitam">#FF000000</color>
+    <color name="oranye">#FFF2A23A</color>
+    <color name="teks">#FFF4F1EA</color>
+    <color name="teks_sekunder">#FFA8A49C</color>
+    <color name="merah">#FFD94848</color>
+    <color name="hijau">#FF7BC67E</color>
+    <color name="biru_spo2">#FF5BB7D8</color>
+</resources>

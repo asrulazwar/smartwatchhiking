@@ -1,1 +1,3 @@
 -keep class id.asrul.pendaki.shared.** { *; }
+-keepclassmembers class **$$serializer { *; }
+-dontwarn org.slf4j.**

@@ -1,4 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Pendaki</string>
+    <string name="tile_label">Pendakian</string>
+    <string name="komplikasi_ketinggian">Ketinggian</string>
+    <string name="komplikasi_sisa_naik">Sisa naik</string>
+
+    <!-- umum -->
+    <string name="mdpl">mdpl</string>
+    <string name="bpm">bpm</string>
+    <string name="satuan_persen">%</string>
+    <string name="tidak_tersedia">tidak tersedia</string>
+    <string name="tidak_tersedia_perangkat">tidak tersedia di perangkat ini</string>
+    <string name="batal">Batal</string>
+    <string name="ya">Ya</string>
+    <string name="tidak">Tidak</string>
+    <string name="simpan">Simpan</string>
+    <string name="kembali">Kembali</string>
+    <string name="lanjut">Lanjut</string>
+    <string name="menit_lalu">%1$d mnt lalu</string>
+    <string name="baru_saja">baru saja</string>
+
+    <!-- izin -->
+    <string name="izin_judul">Izin diperlukan</string>
+    <string name="izin_lokasi">Lokasi: untuk GPS, deteksi gunung, dan navigasi balik.</string>
+    <string name="izin_sensor">Sensor tubuh: detak jantung dan SpO2.</string>
+    <string name="izin_aktivitas">Aktivitas: deteksi langkah untuk mode hemat GPS.</string>
+    <string name="izin_notifikasi">Notifikasi: agar perekaman tetap berjalan di latar.</string>
+    <string name="izin_beri">Beri izin</string>
+    <string name="izin_ditolak">Izin ditolak. Fitur terkait tidak aktif, aplikasi tetap bisa dipakai.</string>
+    <string name="izin_buka_pengaturan">Buka pengaturan</string>
+
+    <!-- mulai -->
+    <string name="mulai_judul">Mulai pendakian</string>
+    <string name="mulai_mencari_gps">Mencari sinyal GPS…</string>
+    <string name="mulai_gps_terkunci">GPS terkunci · %1$s mdpl</string>
+    <string name="mulai_dekat">Anda sedang di dekat</string>
+    <string name="mulai_pilih">PILIH</string>
+    <string name="mulai_puncak_jarak">%1$s mdpl · puncak %2$s</string>
+    <string name="mulai_cari_lain">Cari gunung lain</string>
+    <string name="mulai_tidak_ada_gps">GPS belum terkunci, pilih gunung manual</string>
+    <string name="mulai_terakhir">Terakhir dipilih</string>
+    <string name="mulai_semua">Semua gunung</string>
+    <string name="mulai_pilih_jalur">Pilih jalur</string>
+    <string name="mulai_jalur_tanpa_data">Tanpa data jalur (catat pos manual)</string>
+    <string name="mulai_basecamp">basecamp %1$s mdpl · %2$d pos</string>
+    <string name="mulai_sedang_merekam">Pendakian sedang berjalan</string>
+    <string name="mulai_lanjutkan">Lanjutkan</string>
+    <string name="mulai_mulai">Mulai</string>
+    <string name="mulai_cari">Cari…</string>
+
+    <!-- utama -->
+    <string name="utama_puncak">puncak %1$s</string>
+    <string name="utama_lagi">lagi</string>
+    <string name="utama_m_per_jam">m/jam</string>
+    <string name="utama_tiba">tiba</string>
+    <string name="utama_tiba_nilai">±%1$s</string>
+    <string name="utama_spo2">SpO₂</string>
+    <string name="utama_menunggu_baro">kalibrasi…</string>
+    <string name="utama_gunung_jalur">Gn. %1$s · via %2$s</string>
+    <string name="utama_gunung">Gn. %1$s</string>
+    <string name="menu_pos">Catat pos</string>
+    <string name="menu_navigasi">Navigasi balik</string>
+    <string name="menu_kondisi">Detak &amp; SpO₂</string>
+    <string name="menu_stres">Stres</string>
+    <string name="menu_pengaturan">Pengaturan</string>
+    <string name="menu_selesai">Selesai</string>
+    <string name="menu_debug">Debug sensor</string>
+
+    <!-- pos -->
+    <string name="pos_judul">Pos tercatat · %1$d dari %2$d</string>
+    <string name="pos_judul_manual">Pos tercatat · %1$d</string>
+    <string name="pos_catat_n">Catat %1$s</string>
+    <string name="pos_catat">Catat Pos</string>
+    <string name="pos_basecamp">Basecamp</string>
+    <string name="pos_perkiraan">±%1$s</string>
+    <string name="pos_tawaran">Sampai %1$s?</string>
+    <string name="pos_pilih_nama">Nama pos</string>
+    <string name="pos_tercatat">%1$s tercatat</string>
+    <string name="pos_puncak">Puncak</string>
+
+    <!-- navigasi -->
+    <string name="nav_kembali_ke">Kembali ke</string>
+    <string name="nav_arah_jam_turun">arah jam %1$d · turun %2$s m</string>
+    <string name="nav_arah_jam_naik">arah jam %1$d · naik %2$s m</string>
+    <string name="nav_jejak">jejak naik tadi</string>
+    <string name="nav_basecamp_jarak">Basecamp %1$s</string>
+    <string name="nav_tanpa_tujuan">Belum ada pos untuk dituju</string>
+    <string name="nav_utara">U</string>
+    <string name="nav_m">m</string>
+
+    <!-- kondisi -->
+    <string name="kondisi_judul">Kondisi · %1$s mdpl</string>
+    <string name="kondisi_detak">DETAK</string>
+    <string name="kondisi_zona">bpm · zona %1$d</string>
+    <string name="kondisi_istirahat_tadi">Istirahat tadi</string>
+    <string name="kondisi_biasanya">bpm · biasanya %1$d</string>
+    <string name="kondisi_ukur_spo2">Ukur SpO₂ · diam 30 dtk</string>
+    <string name="kondisi_spo2_belum">belum diukur</string>
+    <string name="kondisi_rata_sesi">rata² sesi %1$d</string>
+    <string name="spo2_mengukur">Diam… %1$d</string>
+    <string name="spo2_hasil">SpO₂ %1$d%%</string>
+    <string name="spo2_meragukan">meragukan (tangan bergerak)</string>
+    <string name="spo2_gagal">Sensor SpO₂ tidak memberi data</string>
+    <string name="spo2_sumber_hc">dari Health Connect di HP</string>
+    <string name="spo2_pengingat">Saatnya ukur SpO₂</string>
+
+    <!-- peringatan detak -->
+    <string name="hr_tinggi">DETAK TINGGI</string>
+    <string name="hr_di_atas_batas">di atas batas %1$d selama %2$d dtk</string>
+    <string name="hr_saran">Pelankan langkah atau berhenti sampai turun ke bawah %1$d.</string>
+    <string name="hr_abaikan">Abaikan 10 mnt</string>
+    <string name="hr_istirahat">Istirahat</string>
+    <string name="hr_istirahat_berjalan">Istirahat · sisa %1$s</string>
+
+    <!-- batas detak -->
+    <string name="batas_judul">Pengaturan</string>
+    <string name="batas_sub">Batas detak jantung</string>
+    <string name="batas_keterangan">Getar kalau di atas batas lebih dari 30 detik. Putar crown untuk mengubah.</string>
+    <string name="batas_santai">Santai 140</string>
+    <string name="batas_normal">Normal 155</string>
+    <string name="batas_kuat">Kuat 170</string>
+
+    <!-- AMS -->
+    <string name="ams_peringatan">PERINGATAN</string>
+    <string name="ams_turun_dari">SpO₂ turun dari %1$d%% di %2$s</string>
+    <string name="ams_rendah">SpO₂ di bawah ambang %1$d%%</string>
+    <string name="ams_hr_naik">Detak istirahat naik %1$d bpm dari basecamp</string>
+    <string name="ams_saran">Berhenti dulu. Istirahat 10 menit, minum, tarik napas dalam. Jangan naik sebelum membaik.</string>
+    <string name="ams_ukur_ulang">Ukur ulang</string>
+    <string name="ams_istirahat">Istirahat 10 mnt</string>
+
+    <!-- stres -->
+    <string name="stres_judul">Stres</string>
+    <string name="stres_rendah">Rendah</string>
+    <string name="stres_sedang">Sedang</string>
+    <string name="stres_tinggi">Tinggi</string>
+    <string name="stres_hrv">HRV %1$d ms · %2$s</string>
+    <string name="stres_sejak_basecamp">Basecamp → sekarang</string>
+    <string name="stres_butuh_diam">Diam ≥ 3 menit untuk mengukur</string>
+    <string name="stres_sumber_hc">dari Health Connect di HP</string>
+
+    <!-- puncak -->
+    <string name="puncak_terdeteksi">PUNCAK TERDETEKSI</string>
+    <string name="puncak_jarak">mdpl · %1$s m dari titik puncak</string>
+    <string name="puncak_summit">summit</string>
+    <string name="puncak_dari_basecamp">dari basecamp</string>
+    <string name="puncak_belum">Belum sampai</string>
+    <string name="puncak_turun">Mulai turun</string>
+
+    <!-- selesai -->
+    <string name="selesai_judul">Selesai</string>
+    <string name="selesai_waktu">WAKTU</string>
+    <string name="selesai_jarak">JARAK</string>
+    <string name="selesai_naik">NAIK</string>
+    <string name="selesai_detak">DETAK RATA²</string>
+    <string name="selesai_titik_pos">%1$s titik · %2$d pos tersimpan di jam</string>
+    <string name="selesai_kirim">Kirim ke HP &amp; ekspor</string>
+    <string name="selesai_mengirim">Mengirim…</string>
+    <string name="selesai_terkirim">Terkirim ke HP</string>
+    <string name="selesai_antre">HP tidak terhubung · akan dikirim otomatis</string>
+    <string name="selesai_konfirmasi">Akhiri pendakian?</string>
+    <string name="selesai_akhiri">Akhiri</string>
+
+    <!-- pengaturan -->
+    <string name="set_judul">Pengaturan</string>
+    <string name="set_batas_detak">Batas detak</string>
+    <string name="set_usia">Usia</string>
+    <string name="set_ambang_spo2">Ambang SpO₂</string>
+    <string name="set_interval_gps">Interval GPS</string>
+    <string name="set_gps_hemat">Hemat (30/120 dtk)</string>
+    <string name="set_gps_normal">Normal (15/60 dtk)</string>
+    <string name="set_minum">Pengingat minum</string>
+    <string name="set_minum_mati">Mati</string>
+    <string name="set_minum_menit">%1$d menit</string>
+    <string name="set_getar">Getar</string>
+    <string name="set_debug">Debug sensor</string>
+    <string name="set_nilai_bpm">%1$d bpm</string>
+    <string name="set_nilai_tahun">%1$d tahun</string>
+    <string name="set_nilai_persen">%1$d%%</string>
+    <string name="minum_pengingat">Saatnya minum</string>
+
+    <!-- debug -->
+    <string name="debug_judul">Debug sensor</string>
+    <string name="debug_sensor">Sensor</string>
+    <string name="debug_hs">Health Services</string>
+    <string name="debug_hp">Koneksi HP</string>
+    <string name="debug_hp_terhubung">terhubung: %1$s</string>
+    <string name="debug_hp_tidak">tidak terhubung</string>
+    <string name="debug_spo2_sensor">Sensor SpO₂: %1$s</string>
+    <string name="debug_hrv_sensor">Sensor HRV/RR: %1$s</string>
+
+    <!-- notifikasi -->
+    <string name="notif_channel">Perekaman pendakian</string>
+    <string name="notif_judul">Merekam pendakian</string>
+    <string name="notif_teks">%1$s · %2$s mdpl</string>
+    <string name="notif_channel_peringatan">Peringatan kesehatan</string>
 </resources>
